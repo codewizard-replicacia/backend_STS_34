@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Version="4.0">
+    <edmx:DataServices>
+        <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="Model">
+            <EntityType HasStream="false" Name="Bus">
+                <Key>
+                    <PropertyRef Name="BusId"/>
+                </Key>
+                <Property Name="BusId" Type="Edm.Int32" isUnique="false"/>
+                <Property Name="BusNumber" Type="Edm.String" isUnique="false"/>
+                <Property Name="MfgDate" Type="Edm.DateTimeOffset" isUnique="false"/>
+                <Property Name="Capacity" Type="Edm.Int32" isUnique="false"/>
+                <Property Name="RegistrationNumber" Type="Edm.String" isUnique="false"/>
+                <Property Name="Model" Type="Edm.String" isUnique="false"/>
+                <Property Name="IsCameraFitted" Type="Edm.Boolean" isUnique="false"/>
+                <NavigationProperty Name="Driver" Type="Model.Driver"/>
+                <NavigationProperty Name="Trips" Type="Collection(Model.Trip)"/>
+            </EntityType>
+            <EntityType HasStream="false" Name="Route">
+                <Key>
+                    <PropertyRef Name="RouteId"/>
+                </Key>
+                <Property Name="RouteId" Type="Edm.Int32" isUnique="false"/>
+                <Property Name="RouteName" Type="Edm.String" isUnique="false"/>
+                <Property Name="From" Type="Edm.String" isUnique="false"/>
+                <Property Name="To" Type="Edm.String" isUnique="false"/>
+            </EntityType>
+            <EntityType HasStream="false" Name="Driver">
+                <Key>
+                    <PropertyRef Name="DriverId"/>
+                </Key>
+                <Property Name="DriverId" Type="Edm.Int32" isUnique="false"/>
+                <Property Name="Name" Type="Edm.String" isUnique="false"/>
+                <Property Name="LicenseNumber" Type="Edm.String" isUnique="false"/>
+                <Property Name="Age" Type="Edm.Int32" isUnique="false"/>
+                <Property Name="MobileNumber" Type="Edm.String" isUnique="false"/>
+                <Property Name="Gender" Type="Edm.String" isUnique="false"/>
+            </EntityType>
+            <EntityType HasStream="false" Name="Trip">
+                <Key>
+                    <PropertyRef Name="TripId"/>
+                </Key>
+                <Property Name="TripId" Type="Edm.Int64" isUnique="false"/>
+                <Property Name="StartTime" Type="Edm.DateTimeOffset" isUnique="false"/>
+                <Property Name="EndTime" Type="Edm.DateTimeOffset" isUnique="false"/>
+                <NavigationProperty Name="Route" Type="Model.Route"/>
+            </EntityType>
+            <EntityContainer Name="Container">
+                <EntitySet Name="Buses" EntityType="Model.Bus">
+                    <NavigationPropertyBinding Path="Driver" Target="Drivers"/>
+                    <NavigationPropertyBinding Path="Trips" Target="Trips"/>
+                </EntitySet>
+                <EntitySet Name="Routes" EntityType="Model.Route"/>
+                <EntitySet Name="Drivers" EntityType="Model.Driver"/>
+                <EntitySet Name="Trips" EntityType="Model.Trip">
+                    <NavigationPropertyBinding Path="Route" Target="Routes"/>
+                </EntitySet>
+            </EntityContainer>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>
